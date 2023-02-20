@@ -1,0 +1,63 @@
+<div class="example-container flex flex-col gap-3">
+	<mat-stepper linear #stepper animationDuration="1000">
+		<mat-step [stepControl]="firstNameLastNameFormGroup">
+			<form [formGroup]="firstNameLastNameFormGroup"  class="flex flex-col mt-5">
+				<ng-template matStepLabel>İsminizi ve soyisminizi giriniz</ng-template>
+				<mat-form-field appearance="fill">
+					<mat-label>İsim</mat-label>
+					<input matInput placeholder="Örn. Bertan" formControlName="firstName" required />
+					<mat-error *ngIf="firstNameLastNameFormGroup.controls.firstName.invalid">{{ getErrorMessage() }}</mat-error>
+				</mat-form-field>
+
+				<mat-form-field appearance="fill">
+					<mat-label>Soyisim</mat-label>
+					<input matInput placeholder="Örn. Tokgöz" formControlName="lastName" required />
+					<mat-error *ngIf="firstNameLastNameFormGroup.controls.lastName.invalid">{{ getErrorMessage() }}</mat-error>
+				</mat-form-field>
+				<div>
+					<button mat-button matStepperNext [disabled]="firstNameLastNameFormGroup.invalid">
+						Sonraki adım
+						<mat-icon>navigate_next</mat-icon>
+					</button>
+				</div>
+			</form>
+		</mat-step>
+		<mat-step [stepControl]="emailPasswordFormGroup" label="Email ve şifre giriniz">
+			<form [formGroup]="emailPasswordFormGroup" class="flex flex-col mt-5">
+				<mat-form-field appearance="fill">
+					<mat-label>Email giriniz</mat-label>
+					<input matInput placeholder="ornek@ornek.com" formControlName="email" required />
+					<mat-error *ngIf="emailPasswordFormGroup.controls.email.invalid">{{ getErrorMessage() }}</mat-error>
+				</mat-form-field>
+
+				<mat-form-field appearance="fill">
+					<mat-label>Şifre giriniz</mat-label>
+					<input matInput [type]="isPasswordHide ? 'password' : 'text'" formControlName="password" required />
+					<button
+						mat-icon-button
+						matSuffix
+						(click)="showPassword()"
+						[attr.aria-label]="'Hide password'"
+						[attr.aria-pressed]="isPasswordHide"
+					>
+						<mat-icon>{{ isPasswordHide ? "visibility_off" : "visibility" }}</mat-icon>
+					</button>
+					<mat-error *ngIf="emailPasswordFormGroup.controls.password.invalid">{{ getErrorMessage() }}</mat-error>
+				</mat-form-field>
+				<div>
+					<button mat-button matStepperPrevious>
+						<mat-icon>navigate_before</mat-icon>
+					</button>
+
+					<button mat-raised-button [disabled]="emailPasswordFormGroup.invalid" (click)="sendRequest()">
+						Kayıt Ol
+						<mat-icon>send</mat-icon>
+					</button>
+				</div>
+			</form>
+		</mat-step>
+	</mat-stepper>
+	<a routerLink="/auth" class="mt-6 text-xs leading-5 text-gray-600"
+		>Hesabın var mı? <span class="text-blue-400 underline">Giriş yap</span></a
+	>
+</div>

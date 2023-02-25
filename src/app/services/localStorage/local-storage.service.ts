@@ -9,23 +9,23 @@ export class LocalStorageService {
 	private get tokenName(): string {
 		return "token";
 	}
-	
-	private add(key: string, value: string) {
+
+	private add(key: string, value: string): void {
 		localStorage.setItem(key, value);
 	}
 
-	private delete(key: string) {
+	private delete(key: string): void {
 		localStorage.removeItem(key);
 	}
 
-	private get(key: string) {
+	private get(key: string): string | null {
 		return localStorage.getItem(key);
 	}
 
-	public get token(): string | null {
+	public get token(): string {
 		const token: string | null = this.get(this.tokenName);
 
-		if (!token) return null;
+		if (!token) throw new Error("Token not found");
 
 		return this.cryptoService.decrypto(token);
 	}

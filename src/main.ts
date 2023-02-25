@@ -8,10 +8,13 @@ import { AppComponent } from "./app/app.component";
 //   .catch(err => console.error(err));
 import { routes } from "./app/app-routing.module";
 import { importProvidersFrom } from "@angular/core";
-import { provideHttpClient } from "@angular/common/http";
+import { HttpClientModule, provideHttpClient } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { JwtModule } from "@auth0/angular-jwt";
+import { LocalStorageService } from "./app/services/localStorage/local-storage.service";
+import { CryptoService } from "./app/services/localStorage/crypto.service";
+const localStorageService : LocalStorageService = new LocalStorageService(new CryptoService());
 
 bootstrapApplication(AppComponent, {
 	providers: [
@@ -20,9 +23,14 @@ bootstrapApplication(AppComponent, {
 			BrowserModule,
 			BrowserAnimationsModule,
 			NgxSpinnerModule.forRoot({ type: "square-jelly-box" }),
+			HttpClientModule,
 			JwtModule.forRoot({
 				config: {
-					allowedDomains: ["example.com"],
+					tokenGetter: () => {
+						const token = localStorageService.token
+						return token;
+					},
+					allowedDomains: ["localhost:5078"],
 				},
 			}),
 		),

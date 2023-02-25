@@ -43,7 +43,7 @@ export class RegisterComponent {
 	});
 	isLinear = false;
 
-	constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private spinnerService: SpinnerService) {}
+	constructor(private formBuilder: FormBuilder, private authService: AuthService, private spinnerService: SpinnerService, private router: Router) {}
 
 	getErrorMessage() {
 		if (this.emailPasswordFormGroup.controls.email.hasError("required")) {

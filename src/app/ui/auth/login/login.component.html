@@ -20,7 +20,7 @@
 		<mat-error *ngIf="password.invalid">{{ getErrorMessage() }}</mat-error>
 	</mat-form-field>
 
-	<button mat-raised-button>Giriş yap</button>
+	<button mat-raised-button (click)="login()">Giriş yap</button>
 
 	<a routerLink="/auth/register" class="mt-6 text-xs leading-5 text-gray-600"
 		>Hesabın yok mu? <span class="text-blue-400 underline">Kayıt Ol</span></a

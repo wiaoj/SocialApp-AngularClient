@@ -5,9 +5,10 @@ import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "src/app/services/models/auth/auth.service";
 import { LoginModel } from "src/app/common/models/auth/loginModel";
+import { SpinnerService } from "src/app/services/common/spinner-service/spinner.service";
 @Component({
 	selector: "app-login",
 	standalone: true,
@@ -28,7 +29,7 @@ export class LoginComponent {
 	password = new FormControl("", [Validators.required]);
 	isPasswordHide = true;
 
-	constructor(private authService: AuthService) {}
+	constructor(private authService: AuthService, private spinnerService: SpinnerService, private router: Router) {}
 
 	getErrorMessage() {
 		if (this.email.hasError("required")) {
@@ -43,11 +44,16 @@ export class LoginComponent {
 	}
 
 	async login() {
+		this.spinnerService.show();
 		const loginModel: LoginModel = {
 			email: this.email.value!,
 			password: this.password.value!,
 		};
 
-		await this.authService.login(loginModel);
+		await this.authService.login(loginModel,
+			()=> {
+				this.router.navigate(["/"])
+				this.spinnerService.hide()
+			},);
 	}
 }

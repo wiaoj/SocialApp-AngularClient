@@ -11,15 +11,21 @@ import { importProvidersFrom } from "@angular/core";
 import { provideHttpClient } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgxSpinnerModule } from "ngx-spinner";
+import { JwtModule } from "@auth0/angular-jwt";
+
 bootstrapApplication(AppComponent, {
 	providers: [
 		provideHttpClient(),
 		importProvidersFrom(
-			BrowserModule, 
-			BrowserAnimationsModule, 
-			NgxSpinnerModule.forRoot(
-				{ type: "square-jelly-box"})
-				),
+			BrowserModule,
+			BrowserAnimationsModule,
+			NgxSpinnerModule.forRoot({ type: "square-jelly-box" }),
+			JwtModule.forRoot({
+				config: {
+					allowedDomains: ["example.com"],
+				},
+			}),
+		),
 		provideRouter(routes),
 	],
 });

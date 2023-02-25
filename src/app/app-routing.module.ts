@@ -1,5 +1,4 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { AuthGuard } from "./guards/auth.guard";
 
 export const routes: Routes = [
@@ -7,6 +6,16 @@ export const routes: Routes = [
 		path: "",
 		loadComponent: () => import("./ui/ui.component").then((module) => module.UiComponent),
 		canActivate: [AuthGuard],
+		children: [
+			{
+				path:"profile",
+				loadComponent: () => import("./ui/profile/profile.component").then(module => module.ProfileComponent)
+			},
+			{
+				path:"feed",
+				loadComponent: () => import("./ui/profile/feed/feed.component").then(module => module.FeedComponent)
+			},
+		]
 	},
 	{
 		path: "auth",
